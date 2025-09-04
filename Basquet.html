@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiencia del Baloncesto</title>
+  <link rel="icon" type="image/png" href="Favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hidden-section { display: none; }
+    .fade-in { animation: fadeIn 1s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Balones cayendo */
+    .ball {
+      position: fixed;
+      top: -50px;
+      font-size: 2.5rem;
+      animation: fall linear forwards;
+      z-index: 50;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+
+    /* Bordes neón */
+    .neon-border {
+      border: 4px solid #ff8800;
+      box-shadow: 0 0 20px #ff8800, 0 0 40px #ff5500, 0 0 60px #ffaa00;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .neon-border:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px #ff8800, 0 0 60px #ff5500, 0 0 90px #ffaa00;
+    }
+
+    /* Animación de brillo para el título */
+    .glow-text {
+      color: #ff8800;
+      text-shadow: 0 0 10px #ff8800, 0 0 20px #ff5500, 0 0 30px #ffaa00;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff8800, 0 0 20px #ff5500; }
+      to { text-shadow: 0 0 20px #ffaa00, 0 0 40px #ff5500, 0 0 60px #ff8800; }
+    }
+
+    /* Transición de aparición en las imágenes */
+    .fade-slide {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlide 1s ease forwards;
+    }
+    @keyframes fadeSlide {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animación de recuadro info */
+    .info-box {
+      animation: zoomIn 0.8s ease forwards;
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Video flotante */
+    #videoBox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 4px solid #ff8800;
+      box-shadow: 0 0 20px #ff8800, 0 0 40px #ff5500, 0 0 60px #ffaa00;
+      z-index: 100;
+      display: none;
+      background: black;
+      animation: fadeIn 1s ease forwards;
+    }
+    #videoBox video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    #videoControls {
+      background: rgba(0,0,0,0.7);
+      text-align: center;
+      padding: 6px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #videoControls:hover {
+      background: rgba(255,136,0,0.8);
+    }
+
+    /* Barra de progreso */
+    #progressBar {
+      width: 100%;
+      appearance: none;
+      height: 6px;
+      background: #333;
+      cursor: pointer;
+    }
+    #progressBar::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: #ff8800;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    #progressBar::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: #ff8800;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white font-sans overflow-x-hidden">
+
+  <!-- Pantalla de inicio -->
+  <section id="inicio" class="h-screen flex flex-col justify-center items-center text-center relative bg-cover bg-center" style="background-image: url('cancha.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative z-10 flex flex-col items-center">
+      <img src="Empresarial.png" alt="Logo del colegio" class="w-28 mb-6 animate-pulse drop-shadow-xl">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 glow-text">🏀 Experiencia del Baloncesto</h1>
+      <p class="text-lg md:text-2xl mb-2">Por: <span class="font-semibold text-orange-300 glow-text">Juan Esteban Arenas</span> - Grado 10A</p>
+      <p class="text-lg md:text-2xl mb-6">Para: <span class="font-semibold text-orange-300 glow-text">Fernando</span> - Edu.Física</p>
+      <button onclick="entrar()" class="px-8 py-4 bg-orange-500 hover:bg-orange-600 rounded-2xl text-2xl font-semibold shadow-lg animate-bounce">
+        🚀 Toca aquí para entrar
+      </button>
+    </div>
+  </section>
+
+  <!-- Contenido principal -->
+  <section id="contenido" class="hidden-section p-6 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6 text-center glow-text">Fundamentos del Baloncesto</h2>
+    <div class="grid gap-12">
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Fundamentos.png" alt="Fundamentos" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Que es.png" alt="Qué es el baloncesto" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Los 4.png" alt="Los 4 fundamentos" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="El pase.png" alt="El Pase" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Cana.png" alt="El tiro a canasta" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Bote.png" alt="El Bote" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Defensa.png" alt="Defensa" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Aplicacion.png" alt="Aplicación de las leyes de Newton" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Integracion.png" alt="Integración técnica y física" class="max-h-[500px] w-auto object-contain">
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg flex justify-center items-center neon-border fade-slide">
+        <img src="Conclusion.png" alt="Conclusión" class="max-h-[500px] w-auto object-contain">
+      </div>
+    </div>
+
+    <!-- Botón de info -->
+    <div class="text-center mt-12">
+      <button onclick="mostrarInfo()" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-xl text-xl font-semibold shadow-lg neon-border">
+        📢 Toca aquí para info
+      </button>
+    </div>
+
+    <!-- Info oculta -->
+    <div id="extraInfo" class="hidden mt-6 text-center bg-gray-800 p-6 rounded-2xl shadow-lg max-w-2xl mx-auto text-lg neon-border">
+      <h3 class="text-2xl font-bold text-orange-400 mb-4">Dato curioso del Baloncesto</h3>
+      <p>🏀 El baloncesto fue inventado en <b>1891</b> por <b>James Naismith</b> en Massachusetts (EE.UU.). 
+      ¡El primer partido se jugó con una <b>pelota de fútbol</b> y dos <b>canastas de melocotones</b> como aros! 🍑</p>
+    </div>
+  </section>
+
+  <!-- Video motivador -->
+  <div id="videoBox">
+    <video id="motivacionVideo" src="motivacion.mp4" loop muted></video>
+    <audio id="motivacionAudio" src="motivacion.mp3" loop></audio>
+    <input type="range" id="progressBar" value="0" min="0" max="100">
+    <div id="videoControls" onclick="toggleVideo()">⏸️ Pausar</div>
+  </div>
+
+  <script>
+    const videoBox = document.getElementById('videoBox');
+    const video = document.getElementById('motivacionVideo');
+    const audio = document.getElementById('motivacionAudio');
+    const videoControls = document.getElementById('videoControls');
+    const progressBar = document.getElementById('progressBar');
+    const extraInfo = document.getElementById('extraInfo');
+
+    function entrar() {
+      document.getElementById('inicio').style.display = 'none';
+      const contenido = document.getElementById('contenido');
+      contenido.classList.remove('hidden-section');
+      contenido.classList.add('fade-in');
+
+      videoBox.style.display = 'block';
+      video.play();
+      audio.play();
+
+      for (let i = 0; i < 50; i++) {
+        let ball = document.createElement('div');
+        ball.classList.add('ball');
+        ball.style.left = Math.random() * window.innerWidth + 'px';
+        ball.style.animationDuration = (2 + Math.random() * 4) + 's';
+        ball.innerHTML = '🏀';
+        document.body.appendChild(ball);
+        setTimeout(() => ball.remove(), 6000);
+      }
+    }
+
+    function toggleVideo() {
+      if (video.paused) {
+        video.play();
+        audio.play();
+        videoControls.textContent = "⏸️ Pausar";
+      } else {
+        video.pause();
+        audio.pause();
+        videoControls.textContent = "▶️ Despausar";
+      }
+    }
+
+    // Progreso
+    video.addEventListener('timeupdate', () => {
+      const progress = (video.currentTime / video.duration) * 100;
+      progressBar.value = progress;
+    });
+
+    progressBar.addEventListener('input', () => {
+      const newTime = (progressBar.value / 100) * video.duration;
+      video.currentTime = newTime;
+      audio.currentTime = newTime;
+    });
+
+    // Mostrar info
+    function mostrarInfo() {
+      extraInfo.classList.toggle('hidden');
+      if (!extraInfo.classList.contains('hidden')) {
+        extraInfo.classList.add('info-box');
+      }
+    }
+  </script>
+</body>
+</html>
